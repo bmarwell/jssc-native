@@ -1,0 +1,4 @@
+[submodule "jssc"]
+	path = jssc
+	url = git@github.com:java-native/jssc.git
+	branch = jssc5
