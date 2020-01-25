@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://maven.apache.org/POM/4.0.0"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>io.github.java-native.jssc</groupId>
+        <artifactId>jssc-parent</artifactId>
+        <version>5.0.0-SNAPSHOT</version>
+        <relativePath>./jssc/parent/pom.xml</relativePath>
+    </parent>
+
+    <artifactId>jssc-native-parent</artifactId>
+    <name>jssc native parent</name>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>jssc/header</module>
+    </modules>
+
+    <properties>
+        <github.org>java-native</github.org>
+        <github.repo>jssc-native</github.repo>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-enforcer-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>release-tag</id>
+            <modules>
+                <module>linux-x86_64</module>
+                <!--
+                <module>linux-android-armeabi-v7a</module>
+                <module>linux-android-arm64-v8a</module>
+                <module>linux-android-x86-i686</module>
+                <module>windows-x86_64</module>
+                <module>osx-x86_64</module>
+                -->
+            </modules>
+        </profile>
+        <profile>
+            <id>linux</id>
+            <activation>
+                <os>
+                    <name>Linux</name>
+                    <family>unix</family>
+                </os>
+            </activation>
+            <modules>
+                <module>linux-x86_64</module>
+                <!--
+                <module>linux-android-armeabi-v7a</module>
+                <module>linux-android-arm64-v8a</module>
+                <module>linux-android-x86-i686</module>
+                <module>windows-x86_64</module>
+                -->
+            </modules>
+        </profile>
+        <profile>
+            <id>osx</id>
+            <activation>
+                <os>
+                    <family>mac</family>
+                </os>
+            </activation>
+            <modules>
+              <!--
+                <module>osx-x86_64</module>
+                -->
+            </modules>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <!-- OSX doesn't deploy native-parent, but it does osx-x86_64 -->
+                        <configuration>
+                            <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                                <configuration>
+                                    <gpgArguments>
+                                        <arg>--pinentry-mode</arg>
+                                        <arg>loopback</arg>
+                                    </gpgArguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+</project>
+<!-- vim: set ai cindent sw=4 expandtab -->
+
