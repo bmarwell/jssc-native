@@ -42,12 +42,12 @@ before_install:
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install curl; fi
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install cmake; fi
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install g++; fi
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then curl -sL https://raw.githubusercontent.com/shyiko/jabba/0.11.0/install.sh | bash && . ~/.jabba/jabba.sh; fi
   - if [ "$TRAVIS_OS_NAME" == "windows" ]; then .\\${env:TRAVIS_BUILD_DIR}/.deployment/jabba-win.ps1 ; fi
-  - curl -sL https://raw.githubusercontent.com/shyiko/jabba/0.11.0/install.sh | bash && . ~/.jabba/jabba.sh
 
 
 install:
-  - $JABBA_HOME/bin/jabba install $TRAVIS_JDK
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then $JABBA_HOME/bin/jabba install $TRAVIS_JDK; fi
   - ./mvnw --batch-mode -Pdeploy -DexcludeGroupIds=com.github.github -DexcludeArtifactIds=jssc-header -V dependency:go-offline
 
 script:
