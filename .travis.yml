@@ -1,6 +1,3 @@
-language: java
-
-
 env:
   global:
     - JABBA_HOME=/home/travis/.jabba
@@ -26,7 +23,8 @@ matrix:
     language: java
     osx_image: xcode10.1
   - os: windows
-    language: java
+    # windows does not allow java at this point.
+    language: cpp
 
 
 before_install:
