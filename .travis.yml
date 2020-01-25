@@ -25,9 +25,13 @@ matrix:
   - os: osx
     language: java
     osx_image: xcode10.1
+    env:
+      - TRAVIS_JDK=adopt-openj9@1.11.0-5
   - os: windows
     # windows does not allow java at this point.
     language: cpp
+    env:
+      - TRAVIS_JDK=adopt-openj9@1.11.0-5
 
 
 before_install:
