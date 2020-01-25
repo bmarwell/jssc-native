@@ -1,0 +1,57 @@
+language: java
+
+
+env:
+  global:
+    - JABBA_HOME=/home/travis/.jabba
+
+cache:
+  directories:
+  - $HOME/.m2
+
+before_cache:
+  - rm -rf $HOME/.m2/repository/com/github/java-native
+  - rm -rf $HOME/.m2/repository/io/github/java-native    
+
+matrix:
+  include:
+  - os: linux
+    sudo: required
+    dist: bionic
+    arch: amd64
+    language: java
+    env:
+      - TRAVIS_JDK=adopt-openj9@1.11.0-5
+  - os: osx
+    language: java
+    osx_image: xcode10.1
+  - os: windows
+    language: java
+
+
+before_install:
+  - gpg --version
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install binutils-mingw-w64-x86-64; fi
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install gcc-mingw-w64-base; fi
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install mingw-w64-common; fi
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install mingw-w64-x86-64-dev; fi
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install gcc-mingw-w64-x86-64; fi
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install unzip; fi
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install curl; fi
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install cmake; fi
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install g++; fi
+  - if [ "$TRAVIS_OS_NAME" == "windows" ]; then .\.deployment\.jabba-win.ps1 ; fi
+  - curl -sL https://raw.githubusercontent.com/shyiko/jabba/0.11.0/install.sh | bash && . ~/.jabba/jabba.sh
+
+
+install:
+  - $JABBA_HOME/bin/jabba install $TRAVIS_JDK
+  - ./mvnw --batch-mode -Pdeploy -DexcludeGroupIds=com.github.github -V dependency:go-offline
+
+script:
+  - ./mvnw --batch-mode -Pdeploy -Dgpg.skip=true verify
+
+after_success:
+  - if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_TAG" == "" ]; then echo $GPG_KEY | base64 --decode | gpg --batch --fast-import -; fi
+  - if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_TAG" == "" ]; then mvn --batch-mode -P deploy --settings .deployment/m2-settings.xml deploy; fi
+
