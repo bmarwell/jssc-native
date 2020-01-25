@@ -10,9 +10,6 @@ before_cache:
   - rm -rf $HOME/.m2/repository/com/github/java-native
   - rm -rf $HOME/.m2/repository/io/github/java-native    
 
-git:
-  submodules: false
-
 matrix:
   include:
   - os: linux
@@ -35,8 +32,6 @@ matrix:
 
 
 before_install:
-  - sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
-  - git submodule update --init --recursive
   - gpg --version
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install binutils-mingw-w64-x86-64; fi
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install gcc-mingw-w64-base; fi
@@ -47,7 +42,7 @@ before_install:
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install curl; fi
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install cmake; fi
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install g++; fi
-  - if [ "$TRAVIS_OS_NAME" == "windows" ]; then .\.deployment\.jabba-win.ps1 ; fi
+  - if [ "$TRAVIS_OS_NAME" == "windows" ]; then pwsh -f "${env:TRAVIS_BUILD_DIR}/.deployment/jabba-win.ps1" ; fi
   - curl -sL https://raw.githubusercontent.com/shyiko/jabba/0.11.0/install.sh | bash && . ~/.jabba/jabba.sh
 
 
