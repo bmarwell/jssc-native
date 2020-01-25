@@ -22,6 +22,7 @@ matrix:
   - os: osx
     language: java
     osx_image: xcode10.1
+    jdk: openjdk11
     env:
       - TRAVIS_JDK=adopt-openj9@1.11.0-5
   - os: windows
