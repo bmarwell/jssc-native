@@ -14,7 +14,7 @@ matrix:
   include:
   - os: linux
     sudo: required
-    dist: bionic
+    dist: xenial
     arch: amd64
     language: java
     env:
@@ -23,14 +23,10 @@ matrix:
     language: java
     osx_image: xcode10.1
     jdk: openjdk11
-    env:
-      - TRAVIS_JDK=adopt-openj9@1.11.0-5
   - os: windows
     # windows does not allow java at this point.
     language: cpp
-    env:
-      - TRAVIS_JDK=adopt-openj9@1.11.0-5
-
+    
 
 before_install:
   - gpg --version
