@@ -10,6 +10,9 @@ before_cache:
   - rm -rf $HOME/.m2/repository/com/github/java-native
   - rm -rf $HOME/.m2/repository/io/github/java-native    
 
+git:
+  submodules: false
+
 matrix:
   include:
   - os: linux
@@ -28,6 +31,8 @@ matrix:
 
 
 before_install:
+  - sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
+  - git submodule update --init --recursive
   - gpg --version
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install binutils-mingw-w64-x86-64; fi
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install gcc-mingw-w64-base; fi
