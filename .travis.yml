@@ -48,7 +48,6 @@ before_install:
 
 install:
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then $JABBA_HOME/bin/jabba install $TRAVIS_JDK; fi
-  - ./mvnw --batch-mode -Pdeploy -DexcludeGroupIds=com.github.github,io.github.java-native.jssc -V dependency:go-offline
 
 script:
   - ./mvnw --batch-mode -Pdeploy -DexcludeArtifactIds=jssc-header -Dgpg.skip=true verify
