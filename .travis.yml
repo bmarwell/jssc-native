@@ -48,12 +48,12 @@ before_install:
 
 install:
   - $JABBA_HOME/bin/jabba install $TRAVIS_JDK
-  - ./mvnw --batch-mode -Pdeploy -DexcludeGroupIds=com.github.github -V dependency:go-offline
+  - ./mvnw --batch-mode -Pdeploy -DexcludeGroupIds=com.github.github -DexcludeArtifactIds=jssc-header -V dependency:go-offline
 
 script:
-  - ./mvnw --batch-mode -Pdeploy -Dgpg.skip=true verify
+  - ./mvnw --batch-mode -Pdeploy -DexcludeArtifactIds=jssc-header -Dgpg.skip=true verify
 
 after_success:
   - if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_TAG" == "" ]; then echo $GPG_KEY | base64 --decode | gpg --batch --fast-import -; fi
-  - if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_TAG" == "" ]; then mvn --batch-mode -P deploy --settings .deployment/m2-settings.xml deploy; fi
+  - if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_TAG" == "" ]; then mvn --batch-mode -Pdeploy --settings .deployment/m2-settings.xml -DexcludeArtifactIds=jssc-header deploy; fi
 
