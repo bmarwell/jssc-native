@@ -1,0 +1,21 @@
+[[jssc-native]]
+jssc-native
+===========
+
+Description
+-----------
+
+JSSC Native Libraries Automatic Build Repository
+
+Build Matrix
+------------
+
+Linux builds will build more than just its native architecture. None of these maven modules will deploy the jssc-header.
+
+.Build Matrix
+[options="header"]
+|======================================================================================
+| Target \\ Built by | Linux x64    | Linux x32    | macos xcode 10.1  | Windows
+| Linux amd64        | * (native)   | -            | -                 | -
+| Windows amd64      | * (mingw)    | -            | -                 | -
+|=======================================================================================
