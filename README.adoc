@@ -15,7 +15,17 @@ Linux builds will build more than just its native architecture. None of these ma
 .Build Matrix
 [options="header"]
 |======================================================================================
-| Target \\ Built by | Linux x64    | Linux x32    | macos xcode 10.1  | Windows
-| Linux amd64        | * (native)   | -            | -                 | -
-| Windows amd64      | * (mingw)    | -            | -                 | -
+| Target \\ Built by | Linux x64    | Linux arm64       | macos xcode 10.1  | Windows
+| Linux amd64        | * (native)   | -                 | -                 | -
+| Linux x86_32       | * (cross)    | -                 | -                 | -
+| Linux arm64        | * (cross)    | - (tbd)           | -                 | -
+| Linux arm64        | * (cross)    | - (tbd)           | -                 | -
+| Linux arm sf       | * (cross)    | - (tbd)           | -                 | -
+| Linux arm hf       | * (cross)    | - (tbd)           | -                 | -
+| Linux ppc64        | * (cross)    | -                 | -                 | -
+| MacOS 10.1 amd64   | -            | -                 | * (tbd)           | -
+| Solaris            | -            | -                 | -                 | -
+| Windows amd64      | * (mingw)    | -                 | -                 | -
+| Windows x86_32     | * (mingw)    | -                 | -                 | -
 |=======================================================================================
+
