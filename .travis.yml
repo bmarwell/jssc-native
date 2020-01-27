@@ -23,6 +23,17 @@ matrix:
     language: java
     env:
     - TRAVIS_JDK=adopt-openj9@1.11.0-5
+    addons:
+      apt:
+        packages:
+          - cmake3
+          - g++
+          - g++-multilib
+          - g++-mingw-w64-i686
+          - g++-mingw-w64-x86-64
+          - g++-arm-linux-gnueabihf
+          - g++-aarch64-linux-gnu
+          - g++-powerpc64le-linux-gnu
   - os: osx
     language: java
     osx_image: xcode10.1

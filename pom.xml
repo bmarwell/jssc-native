@@ -23,9 +23,90 @@
     <properties>
         <github.org>java-native</github.org>
         <github.repo>jssc-native</github.repo>
+
+        <system.lib.directory>UNDEFINED</system.lib.directory>
+        <cmake.build.args/>
+        <cmake.generate.extra/>
+        <cmake.sources.directory>${project.basedir}/../jssc/libjssc</cmake.sources.directory>
+        <cmake.generated-sources.directory>${project.basedir}/target/generated-sources/cmake</cmake.generated-sources.directory>
+
+        <!-- plugin versions -->
+        <plugin.exec.version>1.6.0</plugin.exec.version>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>io.github.java-native.jssc</groupId>
+            <artifactId>jssc-header</artifactId>
+            <version>5.0.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
     <build>
+        <sourceDirectory>${project.basedir}/../jssc/libjssc</sourceDirectory>
+
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <id>extract-header</id>
+                            <goals>
+                                <goal>unpack</goal>
+                            </goals>
+                            <phase>generate-sources</phase>
+                            <configuration>
+                                <artifact>io.github.java-native.jssc:jssc-header:${project.parent.version}</artifact>
+                                <includes>**/*.h</includes>
+                                <outputDirectory>${cmake.generated-sources.directory}</outputDirectory>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>exec-maven-plugin</artifactId>
+                    <version>${plugin.exec.version}</version>
+                    <executions>
+                        <execution>
+                            <id>native-prepare</id>
+                            <phase>generate-sources</phase>
+                            <goals>
+                                <goal>exec</goal>
+                            </goals>
+                            <configuration>
+                                <!-- working directory is output directory for cmake. -->
+                                <environmentVariables>
+                                    <CMAKE_LIBRARY_OUTPUT_DIRECTORY>${project.build.outputDirectory}/natives/${system.lib.directory}</CMAKE_LIBRARY_OUTPUT_DIRECTORY>
+                                </environmentVariables>
+                                <workingDirectory>${cmake.generated-sources.directory}</workingDirectory>
+                                <executable>cmake</executable>
+                                <commandlineArgs>${cmake.sources.directory} ${cmake.generate.extra}</commandlineArgs>
+                            </configuration>
+                        </execution>
+                        <execution>
+                            <id>native</id>
+                            <phase>compile</phase>
+                            <goals>
+                                <goal>exec</goal>
+                            </goals>
+                            <configuration>
+                                <environmentVariables>
+                                    <CMAKE_LIBRARY_OUTPUT_DIRECTORY>${project.build.outputDirectory}/natives/${system.lib.directory}</CMAKE_LIBRARY_OUTPUT_DIRECTORY>
+                                </environmentVariables>
+                                <workingDirectory>${project.build.outputDirectory}/natives/${system.lib.directory}</workingDirectory>
+                                <executable>cmake</executable>
+                                <commandlineArgs>--build ${cmake.generated-sources.directory} ${cmake.build.args}</commandlineArgs>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
         <plugins>
             <plugin>
                 <artifactId>maven-enforcer-plugin</artifactId>
@@ -52,7 +133,8 @@
                 </os>
             </activation>
             <modules>
-                <module>linux-x86_64</module>
+                <module>linux-x86_64-64</module>
+                <module>linux-x86_32-32</module>
                 <!--
                 <module>linux-android-armeabi-v7a</module>
                 <module>linux-android-arm64-v8a</module>
