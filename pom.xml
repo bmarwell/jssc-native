@@ -160,6 +160,22 @@
             </activation>
             <modules>
                 <module>linux-x86_64-64</module>
+            </modules>
+        </profile>
+
+        <profile>
+            <id>linux-x86_32-32</id>
+            <activation>
+                <os>
+                    <name>Linux</name>
+                    <family>unix</family>
+                </os>
+                <property>
+                    <name>os.detected.arch</name>
+                    <value>x86_32</value>
+                </property>
+            </activation>
+            <modules>
                 <module>linux-x86_32-32</module>
             </modules>
         </profile>
@@ -203,6 +219,24 @@
             <!-- no automatic activation, as we cannot make sure the platform supports hf. -->
             <modules>
                 <module>linux-arm_32-32-hf</module>
+            </modules>
+        </profile>
+
+
+        <profile>
+            <id>linux-ppcle_64-64</id>
+            <activation>
+                <os>
+                    <name>Linux</name>
+                    <family>unix</family>
+                </os>
+                <property>
+                    <name>os.detected.arch</name>
+                    <value>ppcle_64</value>
+                </property>
+            </activation>
+            <modules>
+                <module>linux-ppcle_64-64</module>
             </modules>
         </profile>
 

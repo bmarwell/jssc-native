@@ -42,3 +42,16 @@ Linux builds will build more than just its native architecture. None of these ma
 | windows-x86_32-32             | * (mingw)    | -            | -             | -            | -                 | -
 |==========================================================================================================================
 
+== Cross compilation
+
+If you want to cross compile from your 64bit Linux repository, you need the corresponding g++-5 libraries and executables.
+
+=== Ubuntu Packages names
+
+* `g++-5-aarch64-linux-gnu` for `linux-aarch_64-64`
+* `g++-5-arm-linux-gnueabi` for `linux-arm_32-32` (no hardfloat)
+* `g++-5-arm-linux-gnueabihf` for `linux-arm_32-32` (hardfloat)
+* `g++-5-powerpc64le-linux-gnu` for `linux-ppcle_64-64`
+* `g++-5-multilib` for `linux-x86_32-32`
+
+

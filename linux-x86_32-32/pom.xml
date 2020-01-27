@@ -18,7 +18,6 @@
     <packaging>jar</packaging>
 
     <properties>
-        <cmake.generate.extra>-DFORCE_M32=true</cmake.generate.extra>
         <system.lib.directory>linux-x86_32-32</system.lib.directory>
     </properties>
 
@@ -34,5 +33,20 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>linux-x86_32-32_cross-compile</id>
+            <activation>
+                <property>
+                    <name>os.detected.arch</name>
+                    <value>!x86_32</value>
+                </property>
+            </activation>
+            <properties>
+                <cmake.generate.extra>-DFORCE_M32=true</cmake.generate.extra>
+            </properties>
+        </profile>
+    </profiles>
 
 </project>
