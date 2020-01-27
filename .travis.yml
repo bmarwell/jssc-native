@@ -66,8 +66,8 @@ script:
 after_success:
 - |
   if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_TAG" == "" ]; then
-    gpg2 --keyring=$TRAVIS_BUILD_DIR/pubring.gpg --no-default-keyring --import .deployment/signingkey.asc
-    gpg2 --allow-secret-key-import --keyring=$TRAVIS_BUILD_DIR/secring.gpg --no-default-keyring --import .deployment/signingkey.asc
+    gpg --keyring=$TRAVIS_BUILD_DIR/pubring.gpg --no-default-keyring --import .deployment/signingkey.asc
+    gpg --allow-secret-key-import --keyring=$TRAVIS_BUILD_DIR/secring.gpg --no-default-keyring --import .deployment/signingkey.asc
     ./mvnw --batch-mode -Pdeploy --settings .deployment/m2-settings.xml -Dgpg.publicKeyring="$TRAVIS_BUILD_DIR/pubring.gpg" -Dgpg.secretKeyring="$TRAVIS_BUILD_DIR/secring.gpg" -Dgpg.keyname=0x196A72C1 -Dgpg.passphrase="$GPG_PASSPHRASE" deploy
   fi
 
