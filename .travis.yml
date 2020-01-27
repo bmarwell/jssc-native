@@ -50,7 +50,7 @@ matrix:
       apt:
         packages:
           - cmake
-          - g++-aarch64-linux-gnu
+          - g++
   - os: linux
     sudo: false
     arch: amd64
