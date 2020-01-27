@@ -14,37 +14,30 @@ before_cache:
 - rm -rf "$HOME/.m2/repository/com/github/java-native"
 - rm -rf "$HOME/.m2/repository/io/github/java-native"
 
-# amd64 toolchain (used as a base for non-sudo compilation, which is faster)
-include: &toolchain_linux_x86_64-64
-  sudo: false
-  env:
-    - MAVEN_MODULE=linux_x86_64-64
-  addons:
-    apt:
-      # sources:
-      #   - ubuntu-toolchain-r-test
-      packages:
-        - cmake
-        - g++
-
-include: &toolchain_linux_x86_32-32
-  sudo: false
-  env:
-    - MAVEN_MODULE=linux_x86_64-64
-  addons:
-    apt:
-      # sources:
-      #   - ubuntu-toolchain-r-test
-      packages:
-        - cmake
-        - g++-multilib
-
 matrix:
   include:
   - os: linux
-    << *toolchain_linux_x86_64-64
+    sudo: false
+    env:
+      - MAVEN_MODULE=linux_x86_64-64
+    addons:
+      apt:
+        # sources:
+        #   - ubuntu-toolchain-r-test
+        packages:
+          - cmake
+          - g++
   - os: linux
-    << *toolchain_linux_x86_32
+    sudo: false
+    env:
+      - MAVEN_MODULE=linux_x86_64-64
+    addons:
+      apt:
+        # sources:
+        #   - ubuntu-toolchain-r-test
+        packages:
+          - cmake
+          - g++-multilib
 #  - os: osx
 #    language: java
 #    env:
