@@ -92,7 +92,7 @@ matrix:
     language: java
     env:
       - MAVEN_MODULE=osx_x86_64-64
-      - MAVEN_MODULE=osx_x86_64-64
+      - MAVEN_PROFILE=osx_x86_64-64
     osx_image: xcode10.1
     addons:
       homebrew:
@@ -106,8 +106,8 @@ before_install:
 
 install:
   # jabba has no ppc64 support atm, lets use the default jdk.
-  - if [ "$TRAVIS_OS_NAME" == "linux" ] && [ "$TRAVIS_CPU_ARCH" != "ppc64le" ]; then $JABBA_HOME/bin/jabba install $TRAVIS_JDK; fi
-  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then $JABBA_HOME/bin/jabba install $TRAVIS_JDK; fi
+  - if [ "$TRAVIS_OS_NAME" == "linux" ] && [ "$TRAVIS_CPU_ARCH" != "ppc64le" ]; then $JABBA_HOME/bin/jabba install $TRAVIS_JDK; jabba use $TRAVIS_JDK; fi
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then $JABBA_HOME/bin/jabba install $TRAVIS_JDK; jabba use $TRAVIS_JDK; fi
   # manual jdk installation for the moment.
   - |
     if [ "$TRAVIS_OS_NAME" == "linux" ] && [ "$TRAVIS_CPU_ARCH" == "ppc64le" ]; then
