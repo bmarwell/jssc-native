@@ -35,6 +35,9 @@
 
         <!-- plugin versions -->
         <plugin.exec.version>1.6.0</plugin.exec.version>
+
+        <!-- plugin configuration -->
+        <deploy.native.parent.skip>true</deploy.native.parent.skip>
     </properties>
 
     <dependencies>
@@ -127,6 +130,15 @@
                         </properties>
                     </configuration>
                 </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <inherited>false</inherited>
+                    <configuration>
+                        <skip>${deploy.native.parent.skip}</skip>
+                    </configuration>
+                </plugin>
             </plugins>
         </pluginManagement>
 
@@ -160,6 +172,9 @@
                     <value>x86_64</value>
                 </property>
             </activation>
+            <properties>
+                <deploy.native.parent.skip>false</deploy.native.parent.skip>
+            </properties>
             <modules>
                 <module>linux-x86_64-64</module>
             </modules>

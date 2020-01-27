@@ -20,6 +20,8 @@
     <properties>
         <cmake.generate.extra>-DFORCE_M64=true</cmake.generate.extra>
         <system.lib.directory>linux-x86_64-64</system.lib.directory>
+        <!-- only this module may also deploy the parent. -->
+        <deploy.parent.skip>false</deploy.parent.skip>
     </properties>
 
     <build>
