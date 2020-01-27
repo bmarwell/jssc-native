@@ -88,24 +88,26 @@ matrix:
         packages:
           - cmake
           - g++-5
-#  - os: osx
-#    language: java
-#    env:
-#      - MAVEN_MODULE=osx_x86_64-64
-#    osx_image: xcode10.1
-#    jdk: openjdk11
-#    addons:
-#      homebrew:
-#        packages:
-#          - gnupg
+  - os: osx
+    language: java
+    env:
+      - MAVEN_MODULE=osx_x86_64-64
+      - MAVEN_MODULE=osx_x86_64-64
+    osx_image: xcode10.1
+    addons:
+      homebrew:
+        packages:
+          - gnupg
 
 before_install:
-  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then curl -sL https://raw.githubusercontent.com/shyiko/jabba/0.11.0/install.sh | bash && . $JABBA_HOME/jabba.sh; fi
+  - if [ "$TRAVIS_OS_NAME" == "linux" ] && [ "$TRAVIS_CPU_ARCH" != "ppc64le" ]; then curl -sL https://raw.githubusercontent.com/shyiko/jabba/0.11.0/install.sh | bash && . $JABBA_HOME/jabba.sh; fi
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then curl -sL https://raw.githubusercontent.com/shyiko/jabba/0.11.0/install.sh | bash && . $JABBA_HOME/jabba.sh; fi
   - gpg --version
 
 install:
   # jabba has no ppc64 support atm, lets use the default jdk.
   - if [ "$TRAVIS_OS_NAME" == "linux" ] && [ "$TRAVIS_CPU_ARCH" != "ppc64le" ]; then $JABBA_HOME/bin/jabba install $TRAVIS_JDK; fi
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then $JABBA_HOME/bin/jabba install $TRAVIS_JDK; fi
   # manual jdk installation for the moment.
   - |
     if [ "$TRAVIS_OS_NAME" == "linux" ] && [ "$TRAVIS_CPU_ARCH" == "ppc64le" ]; then

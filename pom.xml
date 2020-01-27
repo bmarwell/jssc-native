@@ -241,16 +241,18 @@
         </profile>
 
         <profile>
-            <id>osx</id>
+            <id>osx-x86_64-64</id>
             <activation>
                 <os>
                     <family>mac</family>
                 </os>
+                <property>
+                    <name>os.detected.arch</name>
+                    <value>x86_64</value>
+                </property>
             </activation>
             <modules>
-              <!--
-                <module>osx-x86_64</module>
-                -->
+                <module>osx-x86_64-64</module>
             </modules>
         </profile>
     </profiles>

@@ -36,7 +36,7 @@ Linux builds will build more than just its native architecture. None of these ma
 | linux-arm_32-32-hf            | * (cross)    | -            | -             | -            | -                 | -
 | linux-ppcle_64-64 (IBM Power) | -            | -            | - (tbd)       | -            | -                 | -
 | linux-s390x-64    (IBM Z)     | -            | -            | -             | - (tbd)      | -                 | -
-| mac-x86_64-64                 | -            | -            | -             | -            | * (tbd)           | -
+| osx-x86_64-64                 | -            | -            | -             | -            | * (tbd)           | -
 | sunos-?-?                     | -            | -            | -             | -            | -                 | -
 | windows-x86_64-64             | * (mingw)    | -            | -             | -            | -                 | -
 | windows-x86_32-32             | * (mingw)    | -            | -             | -            | -                 | -
