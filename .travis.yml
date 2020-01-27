@@ -27,16 +27,7 @@ matrix:
       apt:
         packages:
           - cmake
-          - g++
-          - g++-multilib
-          - g++-mingw-w64-i686
-          - g++-mingw-w64-x86-64
-          - gcc-arm-linux-gnueabihf
-          - g++-arm-linux-gnueabihf
-          - gcc-aarch64-linux-gnu
-          - g++-aarch64-linux-gnu
-          - gcc-powerpc64le-linux-gnu
-          - g++-powerpc64le-linux-gnu
+          - gcc-5-cross
   - os: osx
     language: java
     osx_image: xcode10.1
