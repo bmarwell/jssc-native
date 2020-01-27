@@ -91,8 +91,8 @@ matrix:
   - os: osx
     language: java
     env:
-      - MAVEN_MODULE=osx_x86_64-64
-      - MAVEN_PROFILE=osx_x86_64-64
+      - MAVEN_MODULE=osx-x86_64-64
+      - MAVEN_PROFILE=osx-x86_64-64
     osx_image: xcode10.1
     addons:
       homebrew:
