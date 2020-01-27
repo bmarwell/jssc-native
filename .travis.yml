@@ -1,3 +1,5 @@
+laguage: cpp
+
 env:
   global:
   - JABBA_HOME=/home/travis/.jabba
