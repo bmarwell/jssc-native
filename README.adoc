@@ -16,10 +16,18 @@ It follows the same conventions as the https://github.com/google/osdetector-grad
 
 * *OS names* are taken from `System.getProperty("os.name").getLowerCase(Locale.ENGLISH)`.
 * The **arch**itecture is normalized from `System.getProperty("os.name")`.
-* The *bitness* is added as an identifying measure, as bitness may not be the same as the operating system's bitness.
+* The *bitness* (bits in long) is added as an identifying measure, as the bitness of the JVM
+  may not be the same as the operating system’s bitness. +
   Example: You are running a 32bit jvm on a 64bit system. In this case, this should be `32`.
 * An *optional qualifier* can be added for add-on chips, like *_hf* for ARM.
 
+== Verifying builds
+
+Builds are verified using the `readelf` and/or `file` commands on *nix-like systems.
+Groovy-scripts are found in the folder `src/verify/groovy`.
+
+The default library file name is `libjssc.so`. For systems which use another name (e.g. MacOS X),
+just set the maven property `cmake.library.output.filename` to an appropriate value.
 
 == Build Matrix
 
@@ -30,18 +38,18 @@ Linux builds will build more than just its native architecture. None of these ma
 [#buildmatrix,options="header",cols="m,m,m,m,m,m,m",grid=rows,frame=topbot]
 |==========================================================================================================================
 | Target/Path \ Built by        | Linux x64    | Linux arm64  | Linux ppc64le | Linux s390x  | macos xcode 10.1  | Windows
-| linux-x86_64-64               | * (native)   | -            | -             | -            | -                 | -
-| linux-x86_32-32               | * (cross)    | -            | -             | -            | -                 | -
-| linux-aarch_64-64             | -            | * (native)   | -             | -            | -                 | -
-| linux-arm_32-32               | * (cross)    | -            | -             | -            | -                 | -
-| linux-arm_32-32-hf            | * (cross)    | -            | -             | -            | -                 | -
-| linux-ppcle_64-64 (IBM Power) | -            | -            | * (native)    | -            | -                 | -
-| linux-s390x-64    (IBM Z)     | -            | -            | -             | - (tbd)      | -                 | -
-| osx-x86_64-64                 | -            | -            | -             | -            | * (native)        | -
-| sunos-sparc_64-64             | -            | -            | -             | -            | -                 | -
-| sunos-x86_64-64               | -            | -            | -             | -            | -                 | -
-| windows-x86_64-64             | * (mingw)    | -            | -             | -            | -                 | -
-| windows-x86_32-32             | * (mingw)    | -            | -             | -            | -                 | -
+| linux-x86_64-64               | * (native)   |              |               |              |                   |
+| linux-x86_32-32               | * (cross)    |              |               |              |                   |
+| linux-aarch_64-64             |              | * (native)   |               |              |                   |
+| linux-arm_32-32               | * (cross)    |              |               |              |                   |
+| linux-arm_32-32-hf            | * (cross)    |              |               |              |                   |
+| linux-ppcle_64-64 (IBM Power) |              |              | * (native)    |              |                   |
+| linux-s390x-64    (IBM Z)     |              |              |               | - (tbd)      |                   |
+| osx-x86_64-64                 |              |              |               |              | * (native)        |
+| sunos-sparc_64-64             |              |              |               |              |                   |
+| sunos-x86_64-64               |              |              |               |              |                   |
+| windows-x86_64-64             | * (mingw)    |              |               |              |                   |
+| windows-x86_32-32             | * (mingw)    |              |               |              |                   |
 |==========================================================================================================================
 
 [.normal]
@@ -56,6 +64,23 @@ If you want to cross compile from your 64bit Linux repository, you need the corr
 * `g++-5-arm-linux-gnueabi` for `linux-arm_32-32` (no hardfloat)
 * `g++-5-arm-linux-gnueabihf` for `linux-arm_32-32` (hardfloat)
 * `g++-5-powerpc64le-linux-gnu` for `linux-ppcle_64-64`
-* `g++-5-multilib` for `linux-x86_32-32`
+* `g++-5-multilib` and `linux-libc-dev:i386` for `linux-x86_32-32`
+* `g++-mingw-w64-x86-64` for `windows-x86_64-64`
+* `g++-mingw-w64-i686` for `windows-x86_32-32`
 
+.cross-compile most architectures
+[source,sh]
+----
+# install needed packages, only required once.
+sudo apt install cmake g++ \
+  g++-5-multilib linux-libc-dev:i386 \
+  g++-5-aarch64-linux-gnu \
+  g++-5-arm-linux-gnueabi \
+  g++-5-arm-linux-gnueabihf \
+  g++-5-powerpc64le-linux-gnu \
+  g++-mingw-w64-x86-64 \
+  g++-mingw-w64-i686
 
+# compile all possible projects on Linux x86_64.
+./mvnw clean verify -Plinux-aarch_64-64,linux-arm_32-32,linux-arm_32-32-hf,linux-ppcle_64-64,linux-x86_32-32,linux-x86_64-64,windows-x86_64-64,windows_x86_32-32
+----

@@ -257,6 +257,39 @@
                 <module>osx-x86_64-64</module>
             </modules>
         </profile>
+
+        <profile>
+            <id>windows-x86_64-64</id>
+            <activation>
+                <os>
+                    <family>windows</family>
+                </os>
+                <property>
+                    <name>os.detected.arch</name>
+                    <value>x86_64</value>
+                </property>
+            </activation>
+            <modules>
+                <module>windows-x86_64-64</module>
+            </modules>
+        </profile>
+
+        <profile>
+            <id>windows-x86_32-32</id>
+            <activation>
+                <os>
+                    <family>windows</family>
+                </os>
+                <property>
+                    <name>os.detected.arch</name>
+                    <value>x86_32</value>
+                </property>
+            </activation>
+            <modules>
+                <module>windows-x86_32-32</module>
+            </modules>
+        </profile>
+
     </profiles>
 
 </project>

@@ -29,32 +29,34 @@ def proc = ('file ' + library.getAbsolutePath()).execute()
 proc.consumeProcessOutput(stdOut, stdErr)
 proc.waitForOrKill(1000)
 
-println '[INFO] Checking if built library [' + library.getAbsolutePath() + '] is 64bit.'
-def is32bit = stdOut.toString().contains("ELF 64-bit")
+// PE32 executable (DLL) (console) Intel 80386 (stripped to external PDB), for MS Windows
 
-if (!is32bit) {
-  throw new IllegalStateException("Built library is not 'ELF 64-bit'!")
+println '[INFO] Checking if built library [' + library.getAbsolutePath() + '] is PE32 executable.'
+def isPE32 = stdOut.toString().contains("PE32 executable")
+
+if (!isPE32) {
+  throw new IllegalStateException("Built library is not 'PE32 executable'!")
 }
 
-println '[INFO] Checking if built library [' + library.getAbsolutePath() + '] is shared library.'
-def isSharedObject = stdOut.toString().contains("shared object")
+println '[INFO] Checking if built library [' + library.getAbsolutePath() + '] is (DLL).'
+def isSharedObject = stdOut.toString().contains("(DLL)")
 
 if (!isSharedObject) {
-  throw new IllegalStateException("Built library is not 'shared object'!")
+  throw new IllegalStateException("Built library is not '(DLL)'!")
 }
 
-println '[INFO] Checking if built library [' + library.getAbsolutePath() + '] ARM aarch64.'
-def isArmArch = stdOut.toString().contains("ARM aarch64")
+println '[INFO] Checking if built library [' + library.getAbsolutePath() + '] Intel 80386.'
+def isX8632 = stdOut.toString().contains("Intel 80386")
 
-if (!isArmArch) {
-  throw new IllegalStateException("Built library is not 'ARM aarch64'!")
+if (!isX8632) {
+  throw new IllegalStateException("Built library is not 'Intel 80386'! [" + stdOut.toString().trim() + "].")
 }
 
-println '[INFO] Checking if built library [' + library.getAbsolutePath() + '] is dynamically linked.'
-def isDynLinked = stdOut.toString().contains("dynamically linked")
+println '[INFO] Checking if built library [' + library.getAbsolutePath() + '] is for MS Windows.'
+def forMsWindows = stdOut.toString().contains("for MS Windows")
 
-if (!isDynLinked) {
-  throw new IllegalStateException("Built library is not 'dynamically linked'!")
+if (!forMsWindows) {
+  throw new IllegalStateException("Built library is not 'for MS Windows'!")
 }
 
 return 0
