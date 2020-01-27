@@ -74,7 +74,7 @@ install:
 - if [ "$TRAVIS_OS_NAME" == "linux" ]; then $JABBA_HOME/bin/jabba install $TRAVIS_JDK; fi
 
 script:
-- ./mvnw --batch-mode -Pdocs,deploy -Dgpg.skip=true verify -pl $MAVEN_MODULE -am
+- ./mvnw --batch-mode -Pdocs,deploy,$MAVEN_MODULE -Dgpg.skip=true verify -pl $MAVEN_MODULE -am
 
 after_success:
 - |
@@ -82,5 +82,5 @@ after_success:
     openssl aes-256-cbc -K $encrypted_19397dde2ef8_key -iv $encrypted_19397dde2ef8_iv -in .deployment/signingkey.asc.enc -out .deployment/signingkey.asc -d
     gpg --batch --keyring=$TRAVIS_BUILD_DIR/pubring.gpg --no-default-keyring --import .deployment/signingkey.asc
     gpg --batch --allow-secret-key-import --keyring=$TRAVIS_BUILD_DIR/secring.gpg --no-default-keyring --import .deployment/signingkey.asc
-    ./mvnw --batch-mode -Pdocs,deploy --settings .deployment/m2-settings.xml -Dheader.deploy.skip=true -Dgpg.publicKeyring=$TRAVIS_BUILD_DIR/pubring.gpg -Dgpg.secretKeyring=$TRAVIS_BUILD_DIR/secring.gpg -Dgpg.keyname=0x196A72C1 -Dgpg.passphrase="$GPG_PASSPHRASE" deploy -pl $MAVEN_MODULE -am
+    ./mvnw --batch-mode -Pdocs,deploy,$MAVEN_MODULE --settings .deployment/m2-settings.xml -Dheader.deploy.skip=true -Dgpg.publicKeyring=$TRAVIS_BUILD_DIR/pubring.gpg -Dgpg.secretKeyring=$TRAVIS_BUILD_DIR/secring.gpg -Dgpg.keyname=0x196A72C1 -Dgpg.passphrase="$GPG_PASSPHRASE" deploy -pl $MAVEN_MODULE -am
   fi
