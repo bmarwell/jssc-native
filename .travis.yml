@@ -35,7 +35,7 @@ matrix:
     sudo: false
     env:
       - MAVEN_MODULE=linux-x86_32-32
-      - MAVEN_PROFILE=linux-x86_64-64
+      - MAVEN_PROFILE=linux-x86_32-32
     addons:
       apt:
         packages:
