@@ -26,7 +26,7 @@ matrix:
     addons:
       apt:
         packages:
-          - cmake3
+          - cmake
           - g++
           - g++-multilib
           - g++-mingw-w64-i686
