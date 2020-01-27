@@ -24,8 +24,6 @@ matrix:
       - MAVEN_MODULE=linux-x86_64-64
     addons:
       apt:
-        # sources:
-        #   - ubuntu-toolchain-r-test
         packages:
           - cmake
           - g++
@@ -35,11 +33,19 @@ matrix:
       - MAVEN_MODULE=linux-x86_32-32
     addons:
       apt:
-        # sources:
-        #   - ubuntu-toolchain-r-test
         packages:
           - cmake
           - g++-multilib
+  - os: linux
+    sudo: false
+    arch: arm64
+    env:
+      - MAVEN_MODULE=linux-aarch_64-64
+    addons:
+      apt:
+        packages:
+          - cmake
+          - g++
 #  - os: osx
 #    language: java
 #    env:

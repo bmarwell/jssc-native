@@ -43,6 +43,14 @@
     </dependencies>
 
     <build>
+        <extensions>
+            <extension>
+                <groupId>kr.motd.maven</groupId>
+                <artifactId>os-maven-plugin</artifactId>
+                <version>1.6.1</version>
+            </extension>
+        </extensions>
+
         <sourceDirectory>${project.basedir}/../jssc/libjssc</sourceDirectory>
 
         <pluginManagement>
@@ -124,25 +132,42 @@
                 <header.deploy.skip>true</header.deploy.skip>
             </properties>
         </profile>
+
         <profile>
-            <id>linux</id>
+            <id>linux-x86_64-64</id>
             <activation>
                 <os>
                     <name>Linux</name>
                     <family>unix</family>
                 </os>
+                <property>
+                    <name>os.detected.arch</name>
+                    <value>x86_64</value>
+                </property>
             </activation>
             <modules>
                 <module>linux-x86_64-64</module>
                 <module>linux-x86_32-32</module>
-                <!--
-                <module>linux-android-armeabi-v7a</module>
-                <module>linux-android-arm64-v8a</module>
-                <module>linux-android-x86-i686</module>
-                <module>windows-x86_64</module>
-                -->
             </modules>
         </profile>
+
+        <profile>
+            <id>linux-aarch_64-64</id>
+            <activation>
+                <os>
+                    <name>Linux</name>
+                    <family>unix</family>
+                </os>
+                <property>
+                    <name>os.detected.arch</name>
+                    <value>aarch_64</value>
+                </property>
+            </activation>
+            <modules>
+                <module>linux-aarch_64-64</module>
+            </modules>
+        </profile>
+
         <profile>
             <id>osx</id>
             <activation>

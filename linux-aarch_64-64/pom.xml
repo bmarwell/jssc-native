@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://maven.apache.org/POM/4.0.0"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>io.github.java-native.jssc</groupId>
+        <artifactId>jssc-native-parent</artifactId>
+        <version>5.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>jssc-native-linux-aarch_64-64</artifactId>
+    <name>jssc native linux-aarch_64-64</name>
+
+    <packaging>jar</packaging>
+
+    <properties>
+        <cmake.generate.extra />
+        <system.lib.directory>linux-aarch_64-64</system.lib.directory>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>linux-aarch_64-64_cross-compile</id>
+            <activation>
+                <property>
+                    <name>os.detected.arch</name>
+                    <value>!aarch_64</value>
+                </property>
+            </activation>
+            <properties>
+                <cmake.generate.extra>-DCMAKE_TOOLCHAIN_FILE=${project.basedir}/../toolchains/aarch_64.cmake</cmake.generate.extra>
+            </properties>
+        </profile>
+    </profiles>
+
+</project>
