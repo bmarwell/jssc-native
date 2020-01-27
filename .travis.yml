@@ -88,8 +88,6 @@ matrix:
         packages:
           - cmake
           - g++-5
-          # jabba hos no ppc64le support atm
-          - openjdk-9-jdk
 #  - os: osx
 #    language: java
 #    env:
@@ -108,6 +106,14 @@ before_install:
 install:
   # jabba has no ppc64 support atm, lets use the default jdk.
   - if [ "$TRAVIS_OS_NAME" == "linux" ] && [ "$TRAVIS_CPU_ARCH" != "ppc64le" ]; then $JABBA_HOME/bin/jabba install $TRAVIS_JDK; fi
+  # manual jdk installation for the moment.
+  - |
+    if [ "$TRAVIS_OS_NAME" == "linux" ] && [ "$TRAVIS_CPU_ARCH" == "ppc64le" ]; then
+      curl -sL "https://github.com/AdoptOpenJDK/openjdk11-binaries/releases/download/jdk-11.0.6%2B10/OpenJDK11U-jdk_ppc64le_linux_hotspot_11.0.6_10.tar.gz" -o - \
+      | tar -C "$HOME/.jabba/jdk/adopt@1.11.0-6" --strip-components=1 -xzvf -
+      export JAVA_HOME="$HOME/.jabba/jdk/adopt@1.11.0-6"
+      export PATH="$JAVA_HOME/bin:$PATH"
+    fi
   - java -version
 
 script:
