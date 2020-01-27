@@ -37,7 +37,7 @@
                 <artifactId>groovy-maven-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>verify-sf</id>
+                        <id>verify-readelf</id>
                         <phase>verify</phase>
                         <goals><goal>execute</goal></goals>
                         <configuration>
@@ -45,7 +45,7 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>verify-elf-arm-32</id>
+                        <id>verify-file</id>
                         <phase>verify</phase>
                         <goals><goal>execute</goal></goals>
                         <configuration>

@@ -29,7 +29,7 @@ def proc = ('file ' + library.getAbsolutePath()).execute()
 proc.consumeProcessOutput(stdOut, stdErr)
 proc.waitForOrKill(1000)
 
-// Mach-O 64-bit x86_64 dynamically linked shared library, flags:<NOUNDEFS|DYLDLINK|TWOLEVEL|BINDS_TO_WEAK|NO_REEXPORTED_DYLIBS>
+// Mach-O 64-bit dynamically linked shared library x86_64
 
 println '[INFO] Checking if built library [' + library.getAbsolutePath() + '] is Mach-O 64-bit.'
 def is32bit = stdOut.toString().contains("Mach-O 64-bit")
@@ -45,11 +45,11 @@ if (!isSharedObject) {
   throw new IllegalStateException("Built library is not 'shared library'!")
 }
 
-println '[INFO] Checking if built library [' + library.getAbsolutePath() + '] 64-bit x86_64.'
-def isArmArch = stdOut.toString().contains("64-bit x86_64")
+println '[INFO] Checking if built library [' + library.getAbsolutePath() + '] x86_64.'
+def isX8664Arch = stdOut.toString().contains("x86_64")
 
-if (!isArmArch) {
-  throw new IllegalStateException("Built library is not '64-bit x86_64'! [" + stdOut.toString() + "].")
+if (!isX8664Arch) {
+  throw new IllegalStateException("Built library is not 'x86_64'! [" + stdOut.toString().trim() + "].")
 }
 
 println '[INFO] Checking if built library [' + library.getAbsolutePath() + '] is dynamically linked.'

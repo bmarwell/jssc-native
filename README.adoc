@@ -26,7 +26,8 @@ It follows the same conventions as the https://github.com/google/osdetector-grad
 Linux builds will build more than just its native architecture. None of these maven modules will deploy the jssc-header.
 
 .Build Matrix
-[options="header"]
+[.small]
+[#buildmatrix,options="header",cols="m,m,m,m,m,m,m",grid=rows,frame=topbot]
 |==========================================================================================================================
 | Target/Path \ Built by        | Linux x64    | Linux arm64  | Linux ppc64le | Linux s390x  | macos xcode 10.1  | Windows
 | linux-x86_64-64               | * (native)   | -            | -             | -            | -                 | -
@@ -42,6 +43,8 @@ Linux builds will build more than just its native architecture. None of these ma
 | windows-x86_64-64             | * (mingw)    | -            | -             | -            | -                 | -
 | windows-x86_32-32             | * (mingw)    | -            | -             | -            | -                 | -
 |==========================================================================================================================
+
+[.normal]
 
 == Cross compilation
 
