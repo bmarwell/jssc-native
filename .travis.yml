@@ -25,9 +25,20 @@ matrix:
     - TRAVIS_JDK=adopt-openj9@1.11.0-5
     addons:
       apt:
+        sources:
+          - ubuntu-toolchain-r-test
         packages:
           - cmake
-          - gcc-5-cross
+          - g++
+          - g++-multilib
+          - g++-mingw-w64-i686
+          - g++-mingw-w64-x86-64
+          - gcc-arm-linux-gnueabihf
+          - g++-arm-linux-gnueabihf
+          - gcc-aarch64-linux-gnu
+          - g++-aarch64-linux-gnu
+          - gcc-powerpc64le-linux-gnu
+          - g++-powerpc64le-linux-gnu
   - os: osx
     language: java
     osx_image: xcode10.1
