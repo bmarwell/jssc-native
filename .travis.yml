@@ -111,9 +111,10 @@ install:
   # manual jdk installation for the moment.
   - |
     if [ "$TRAVIS_OS_NAME" == "linux" ] && [ "$TRAVIS_CPU_ARCH" == "ppc64le" ]; then
+      export JAVA_HOME="$HOME/.jabba/jdk/adopt@1.11.0-6"
+      mkdir -p "$JAVA_HOME"
       curl -sL "https://github.com/AdoptOpenJDK/openjdk11-binaries/releases/download/jdk-11.0.6%2B10/OpenJDK11U-jdk_ppc64le_linux_hotspot_11.0.6_10.tar.gz" -o - \
       | tar -C "$HOME/.jabba/jdk/adopt@1.11.0-6" --strip-components=1 -xzvf -
-      export JAVA_HOME="$HOME/.jabba/jdk/adopt@1.11.0-6"
       export PATH="$JAVA_HOME/bin:$PATH"
     fi
   - java -version
