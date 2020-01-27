@@ -3,6 +3,7 @@ laguage: cpp
 env:
   global:
   - JABBA_HOME=/home/travis/.jabba
+  - TRAVIS_JDK=adopt-openj9@1.11.0-6
   - secure: "ChhfJ/6eUstimAmtp1/zTJd5hDzO6n4QuvXTjUSd+BdReHtUB9ICd41Pbs9i3M1GaDuCPG3z7iB+vk0ajpBLEDb/MI4Jg2KUV++Sir2ZQg0OrnK1Bm4ST6eODvfQlouYDfKWAzpD9HMp5EojSV+E+uLwrUa5a5cil0PHEMt7p6Nws3N+seml780C4YsgvniR8bpodFbcXMxYTEK+fn4C6klyMCshP92MDPkwFpIjGanUvN8W2TXt3X8cBsLtAfb5NrR5EBas9MDIpT4aeGAnrU+xmiaKz5PoRilBRyJtMVg939CAxekw580WEjc5Vy3Gc5qBTvUsCYCbEAB/cPKAaNThpm13SGUDgZmoW3rsls5YYs7wPb69GcpnEKOP9zxOH/AYNMoW141jBxhbS2R0h2uioQik5/fxFz68PB3vLvN4DjbCi2st+56x0p/qVEJLvaqQIKv8SfTFCKeOmSzBcECY0YEiuJxsyYhlj6WLWgw0+Uqc+d4pTI3u+rF1oy9X3320DOfOj1pRFLWxQ4SByv59nNixIdGYqbAhMGmX/SxQa5GiuDx9gQuktKsI78j93eIQ8/bUX8VRs61viO5SL4+fRgAyHWqZgTgyx12XAmpzYILgL46wXkAncQpDO6Y8GtDHz/9ixTlZj+azZiaaEi0W8eji50DaL6jgmRQLTX0="
   - secure: "crrKvLxrEvnI2k1k9mSFts40Wd2xkkT+oyjmxv0DNSq0n3ZSCMqD3vdiXKHP+fGbUmV+P3wYN7PYtCoXLxkWV/cOUkrzBHPYjLmdTQRIeRNunAhe7F7omuk6Nf3CsR/60zRawt4aUqHeyEojZ8zEvfqzPcVGNv/xtr0NfiOHaH/Ke8dPTwtJKeJ4rTVmXRhoJdai9I3W5VpO6aNLsMCXp0XChSkdgVY+qYKG6GhTxw12QXojv2ISmMRJLDinGzQyIfw+xB0mkGgpS0Rkp7VqDMWSkGwuItjxza/gw7nn/xROYwukxpKise8UUJ+ixBQg5I1ad82RMkF4UjRninY/Qib4QGfsuNgRfeIrarxM1zrER2kIcTy6LDhTsGkLCy44SXBAwfaPk1KEGfPZpxxFcgD+j+7zzl/0WETxxYFk1sxCWxdJ8Gt8Zt2RTH7CkCSQcGMsoMXaDQSYsvJQm8z9qHjmGd/h8/kJypB0RR/SGTfjK3tNk0ZagJo6JVxPR1h2Xnp8XAMVwH0PZGZWp3FF7xNGdSGsN764v6QIvXuo2qfw+4ynbBkxgZMuU2Inb+LR8TtGKplSvXZWSG1Gyu8opANZYmHM7rylht3MzUFQ33dsdYP3X54vS26QRr/HKNSulJqSOuB7WQVslNOpzEJ875687pB2jAVs4oq67fwR4Rc="
   - secure: "H93Exf+6TXiMVQ7BOaVf4b3cUrZwh9XNK+lQxR7VtucyucK/PTACe7rsJ0i2IgTEFH7Idt5EUWWfACsbyWVqWCr9iQxH2q2tAoWoV3teLrcp4F5Z9nVOTblQCEBZIvEntOcibBBvHG6Sv9dbf13iVT3Q69YfrACkum5r7jcWHBQkZV3AkR2rGu1AJMhT3hfD+uiadD8iErer4ZdNiqSljoHkFqamvGvO7QHIxJiTi/Q5gQ2tDumwJcMkJSH9/hgV6xoT3jvBNEagLi65iJuoiqDVczU9QkyfpAhvx3um50QarBb8CcAtLw41ls/xoN1wTnLHvohBejcm+jeMPfxSLvrKZ+ccw1ShJ0sy4ENIvjzK28WpO6BSE+8c6SIQ0IE8EZS4wJ1wu5dx0A5Cw9oecInwPu/6jQ0h+jhyXaeC/7fl3eLXCODhd21p1e1HkGCW2mCt/uhG/gXJIPg0im8aGQ66nUpiviYhoCHuRh144jhTbjLFF2etY2RjoqrVtwKA2tzSTA0iLd8pt+ndvnvKIxYpKCvmU8Fcdtry5I6rJhZpNh/MEHqyM8zh8jR32JnDXD12LbFrTYTPhPrU0J99ro5Km/jaaVPMYIwoxv3hIusLhAiLmlejDdhASqMwC00PVUGvrfpYzmy89ZOJmNbTKcL0lRNOS1SEta+ET5i6gnE="
@@ -41,6 +42,7 @@ matrix:
     arch: arm64
     env:
       - MAVEN_MODULE=linux-aarch_64-64
+      - TRAVIS_JDK=adopt@1.11.0-6
     addons:
       apt:
         packages:
@@ -58,20 +60,12 @@ matrix:
 #          - gnupg
 
 before_install:
-- gpg --version
-- if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install binutils-mingw-w64-x86-64; fi
-- if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install gcc-mingw-w64-base; fi
-- if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install mingw-w64-common; fi
-- if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install mingw-w64-x86-64-dev; fi
-- if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install gcc-mingw-w64-x86-64; fi
-- if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install unzip; fi
-- if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install curl; fi
-- if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install cmake; fi
-- if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install g++; fi
-- if [ "$TRAVIS_OS_NAME" == "linux" ]; then curl -sL https://raw.githubusercontent.com/shyiko/jabba/0.11.0/install.sh | bash && . ~/.jabba/jabba.sh; fi
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then curl -sL https://raw.githubusercontent.com/shyiko/jabba/0.11.0/install.sh | bash && . ~/.jabba/jabba.sh; fi
+  - gpg --version
 
 install:
-- if [ "$TRAVIS_OS_NAME" == "linux" ]; then $JABBA_HOME/bin/jabba install $TRAVIS_JDK; fi
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then $JABBA_HOME/bin/jabba install $TRAVIS_JDK; fi
+  - java -version
 
 script:
 - ./mvnw --batch-mode -Pdocs,deploy,$MAVEN_MODULE -Dgpg.skip=true verify -pl $MAVEN_MODULE -am
