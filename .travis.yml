@@ -24,9 +24,9 @@ matrix:
     language: java
     osx_image: xcode10.1
     jdk: openjdk11
-  - os: windows
-    # windows does not allow java at this point.
-    language: cpp
+#  - os: windows
+#    # windows does not allow java at this point.
+#    language: cpp
 
 
 before_install:
@@ -41,13 +41,13 @@ before_install:
 - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install cmake; fi
 - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install g++; fi
 - if [ "$TRAVIS_OS_NAME" == "linux" ]; then curl -sL https://raw.githubusercontent.com/shyiko/jabba/0.11.0/install.sh | bash && . ~/.jabba/jabba.sh; fi
-- |
-  if [ "$TRAVIS_OS_NAME" == "windows" ]; then
-  PowerShell -Command '[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-    Invoke-Expression (
-      Invoke-WebRequest https://github.com/shyiko/jabba/raw/master/install.ps1 -UseBasicParsing
-    ).Content' ;
-  fi
+#- |
+#  if [ "$TRAVIS_OS_NAME" == "windows" ]; then
+#  PowerShell -Command '[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+#    Invoke-Expression (
+#      Invoke-WebRequest https://github.com/shyiko/jabba/raw/master/install.ps1 -UseBasicParsing
+#    ).Content' ;
+#  fi
 
 install:
 - if [ "$TRAVIS_OS_NAME" == "linux" ]; then $JABBA_HOME/bin/jabba install $TRAVIS_JDK; fi
