@@ -12,14 +12,14 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>jssc-native-linux-aarch_64-64</artifactId>
-    <name>jssc native linux-aarch_64-64</name>
+    <artifactId>jssc-native-linux-arm_32-32-hf</artifactId>
+    <name>jssc native linux-arm_32-32-hf</name>
 
     <packaging>jar</packaging>
 
     <properties>
         <cmake.generate.extra />
-        <system.lib.directory>linux-aarch_64-64</system.lib.directory>
+        <system.lib.directory>linux-aarch_arm_32-32-hf</system.lib.directory>
     </properties>
 
     <build>
@@ -59,15 +59,15 @@
 
     <profiles>
         <profile>
-            <id>linux-aarch_64-64_cross-compile</id>
+            <id>linux-arm_32-32-hf_cross-compile</id>
             <activation>
                 <property>
                     <name>os.detected.arch</name>
-                    <value>!aarch_64</value>
+                    <value>!arm_32</value>
                 </property>
             </activation>
             <properties>
-                <cmake.generate.extra>-DCMAKE_TOOLCHAIN_FILE=${project.basedir}/../toolchains/aarch_64.cmake</cmake.generate.extra>
+                <cmake.generate.extra>-DCMAKE_TOOLCHAIN_FILE=${project.basedir}/../toolchains/arm_32-hf.cmake</cmake.generate.extra>
             </properties>
         </profile>
     </profiles>

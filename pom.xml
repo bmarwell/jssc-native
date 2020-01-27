@@ -29,6 +29,7 @@
         <cmake.generate.extra/>
         <cmake.sources.directory>${project.basedir}/../jssc/libjssc</cmake.sources.directory>
         <cmake.generated-sources.directory>${project.basedir}/target/generated-sources/cmake</cmake.generated-sources.directory>
+        <cmake.library.output.directory>${project.build.outputDirectory}/natives/${system.lib.directory}</cmake.library.output.directory>
 
         <!-- plugin versions -->
         <plugin.exec.version>1.6.0</plugin.exec.version>
@@ -88,7 +89,7 @@
                             <configuration>
                                 <!-- working directory is output directory for cmake. -->
                                 <environmentVariables>
-                                    <CMAKE_LIBRARY_OUTPUT_DIRECTORY>${project.build.outputDirectory}/natives/${system.lib.directory}</CMAKE_LIBRARY_OUTPUT_DIRECTORY>
+                                    <CMAKE_LIBRARY_OUTPUT_DIRECTORY>${cmake.library.output.directory}</CMAKE_LIBRARY_OUTPUT_DIRECTORY>
                                 </environmentVariables>
                                 <workingDirectory>${cmake.generated-sources.directory}</workingDirectory>
                                 <executable>cmake</executable>
@@ -103,14 +104,26 @@
                             </goals>
                             <configuration>
                                 <environmentVariables>
-                                    <CMAKE_LIBRARY_OUTPUT_DIRECTORY>${project.build.outputDirectory}/natives/${system.lib.directory}</CMAKE_LIBRARY_OUTPUT_DIRECTORY>
+                                    <CMAKE_LIBRARY_OUTPUT_DIRECTORY>${cmake.library.output.directory}</CMAKE_LIBRARY_OUTPUT_DIRECTORY>
                                 </environmentVariables>
-                                <workingDirectory>${project.build.outputDirectory}/natives/${system.lib.directory}</workingDirectory>
+                                <workingDirectory>${cmake.library.output.directory}</workingDirectory>
                                 <executable>cmake</executable>
                                 <commandlineArgs>--build ${cmake.generated-sources.directory} ${cmake.build.args}</commandlineArgs>
                             </configuration>
                         </execution>
                     </executions>
+                </plugin>
+
+                <!-- can be used for verifying the finished build. -->
+                <plugin>
+                    <groupId>org.codehaus.gmaven</groupId>
+                    <artifactId>groovy-maven-plugin</artifactId>
+                    <version>2.1.1</version>
+                    <configuration>
+                        <properties>
+                            <output.library.path>${cmake.library.output.directory}/libjssc.so</output.library.path>
+                        </properties>
+                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -165,6 +178,31 @@
             </activation>
             <modules>
                 <module>linux-aarch_64-64</module>
+            </modules>
+        </profile>
+
+        <profile>
+            <id>linux-arm_32-32</id>
+            <activation>
+                <os>
+                    <name>Linux</name>
+                    <family>unix</family>
+                </os>
+                <property>
+                    <name>os.detected.arch</name>
+                    <value>arm_32</value>
+                </property>
+            </activation>
+            <modules>
+                <module>linux-arm_32-32</module>
+            </modules>
+        </profile>
+
+        <profile>
+            <id>linux-arm_32-32-hf</id>
+            <!-- no automatic activation, as we cannot make sure the platform supports hf. -->
+            <modules>
+                <module>linux-arm_32-32-hf</module>
             </modules>
         </profile>
 

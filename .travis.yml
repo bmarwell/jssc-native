@@ -50,7 +50,33 @@ matrix:
       apt:
         packages:
           - cmake
-          - g++
+          - g++-aarch64-linux-gnu
+  - os: linux
+    sudo: false
+    arch: amd64
+    env:
+      - MAVEN_MODULE=linux-arm_32-32
+      - MAVEN_PROFILE=linux-arm_32-32
+      - TRAVIS_JDK=adopt@1.11.0-6
+    addons:
+      apt:
+        packages:
+          - cmake
+          # we want g++-5 explicitly here.
+          - g++-5-arm-linux-gnueabi
+  - os: linux
+    sudo: false
+    arch: amd64
+    env:
+      - MAVEN_MODULE=linux-arm_32-32-hf
+      - MAVEN_PROFILE=linux-arm_32-32-hf
+      - TRAVIS_JDK=adopt@1.11.0-6
+    addons:
+      apt:
+        packages:
+          - cmake
+          # we want g++-5 explicitly here.
+          - g++-5-arm-linux-gnueabihf
 #  - os: osx
 #    language: java
 #    env:
