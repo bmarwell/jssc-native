@@ -20,7 +20,7 @@ matrix:
     sudo: required
     dist: xenial
     arch: amd64
-    language: java
+    language: cpp
     env:
     - TRAVIS_JDK=adopt-openj9@1.11.0-5
     addons:
