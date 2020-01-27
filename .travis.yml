@@ -112,6 +112,7 @@ after_success:
 
 notifications:
   slack:
+    on_failure: change
     rooms:
-	  - java-native:${java-native}#jssc-native
+      - java-native:${java-native}#jssc-native
 
