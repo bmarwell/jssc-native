@@ -30,6 +30,8 @@
         <cmake.sources.directory>${project.basedir}/../jssc/libjssc</cmake.sources.directory>
         <cmake.generated-sources.directory>${project.basedir}/target/generated-sources/cmake</cmake.generated-sources.directory>
         <cmake.library.output.directory>${project.build.outputDirectory}/natives/${system.lib.directory}</cmake.library.output.directory>
+        <!-- suits most builds. -->
+        <cmake.library.output.filename>libjssc.so</cmake.library.output.filename>
 
         <!-- plugin versions -->
         <plugin.exec.version>1.6.0</plugin.exec.version>
@@ -121,7 +123,7 @@
                     <version>2.1.1</version>
                     <configuration>
                         <properties>
-                            <output.library.path>${cmake.library.output.directory}/libjssc.so</output.library.path>
+                            <output.library.path>${cmake.library.output.directory}/${cmake.library.output.filename}</output.library.path>
                         </properties>
                     </configuration>
                 </plugin>

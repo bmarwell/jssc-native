@@ -20,6 +20,8 @@
     <properties>
         <cmake.generate.extra />
         <system.lib.directory>osx-x86_64-64</system.lib.directory>
+        <!-- this is not libjssc.so -->
+        <cmake.library.output.filename>libjssc.dylib</cmake.library.output.filename>
     </properties>
 
     <build>
