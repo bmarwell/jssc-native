@@ -32,7 +32,7 @@ matrix:
   - os: linux
     sudo: false
     env:
-      - MAVEN_MODULE=linux_x86_64-64
+      - MAVEN_MODULE=linux_x86_32-32
     addons:
       apt:
         # sources:
