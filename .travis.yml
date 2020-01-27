@@ -1,14 +1,15 @@
 env:
   global:
-    - JABBA_HOME=/home/travis/.jabba
+  - JABBA_HOME=/home/travis/.jabba
+  - secure: ChhfJ/6eUstimAmtp1/zTJd5hDzO6n4QuvXTjUSd+BdReHtUB9ICd41Pbs9i3M1GaDuCPG3z7iB+vk0ajpBLEDb/MI4Jg2KUV++Sir2ZQg0OrnK1Bm4ST6eODvfQlouYDfKWAzpD9HMp5EojSV+E+uLwrUa5a5cil0PHEMt7p6Nws3N+seml780C4YsgvniR8bpodFbcXMxYTEK+fn4C6klyMCshP92MDPkwFpIjGanUvN8W2TXt3X8cBsLtAfb5NrR5EBas9MDIpT4aeGAnrU+xmiaKz5PoRilBRyJtMVg939CAxekw580WEjc5Vy3Gc5qBTvUsCYCbEAB/cPKAaNThpm13SGUDgZmoW3rsls5YYs7wPb69GcpnEKOP9zxOH/AYNMoW141jBxhbS2R0h2uioQik5/fxFz68PB3vLvN4DjbCi2st+56x0p/qVEJLvaqQIKv8SfTFCKeOmSzBcECY0YEiuJxsyYhlj6WLWgw0+Uqc+d4pTI3u+rF1oy9X3320DOfOj1pRFLWxQ4SByv59nNixIdGYqbAhMGmX/SxQa5GiuDx9gQuktKsI78j93eIQ8/bUX8VRs61viO5SL4+fRgAyHWqZgTgyx12XAmpzYILgL46wXkAncQpDO6Y8GtDHz/9ixTlZj+azZiaaEi0W8eji50DaL6jgmRQLTX0=
 
 cache:
   directories:
-  - $HOME/.m2
+  - "$HOME/.m2"
 
 before_cache:
-  - rm -rf $HOME/.m2/repository/com/github/java-native
-  - rm -rf $HOME/.m2/repository/io/github/java-native    
+- rm -rf "$HOME/.m2/repository/com/github/java-native"
+- rm -rf "$HOME/.m2/repository/io/github/java-native"
 
 matrix:
   include:
@@ -18,7 +19,7 @@ matrix:
     arch: amd64
     language: java
     env:
-      - TRAVIS_JDK=adopt-openj9@1.11.0-5
+    - TRAVIS_JDK=adopt-openj9@1.11.0-5
   - os: osx
     language: java
     osx_image: xcode10.1
@@ -26,30 +27,42 @@ matrix:
   - os: windows
     # windows does not allow java at this point.
     language: cpp
-    
+
 
 before_install:
-  - gpg --version
-  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install binutils-mingw-w64-x86-64; fi
-  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install gcc-mingw-w64-base; fi
-  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install mingw-w64-common; fi
-  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install mingw-w64-x86-64-dev; fi
-  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install gcc-mingw-w64-x86-64; fi
-  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install unzip; fi
-  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install curl; fi
-  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install cmake; fi
-  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install g++; fi
-  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then curl -sL https://raw.githubusercontent.com/shyiko/jabba/0.11.0/install.sh | bash && . ~/.jabba/jabba.sh; fi
-  - if [ "$TRAVIS_OS_NAME" == "windows" ]; then PowerShell -File .deployment/jabba-win.ps1 ; fi
-
+- gpg --version
+- if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install binutils-mingw-w64-x86-64; fi
+- if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install gcc-mingw-w64-base; fi
+- if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install mingw-w64-common; fi
+- if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install mingw-w64-x86-64-dev; fi
+- if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install gcc-mingw-w64-x86-64; fi
+- if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install unzip; fi
+- if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install curl; fi
+- if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install cmake; fi
+- if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install g++; fi
+- if [ "$TRAVIS_OS_NAME" == "linux" ]; then curl -sL https://raw.githubusercontent.com/shyiko/jabba/0.11.0/install.sh | bash && . ~/.jabba/jabba.sh; fi
+- |
+  if [ "$TRAVIS_OS_NAME" == "windows" ]; then
+  PowerShell -Command '[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+    Invoke-Expression (
+      Invoke-WebRequest https://github.com/shyiko/jabba/raw/master/install.ps1 -UseBasicParsing
+    ).Content' ;
+  fi
 
 install:
-  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then $JABBA_HOME/bin/jabba install $TRAVIS_JDK; fi
+- if [ "$TRAVIS_OS_NAME" == "linux" ]; then $JABBA_HOME/bin/jabba install $TRAVIS_JDK; fi
 
 script:
-  - ./mvnw --batch-mode -Pdeploy -DexcludeArtifactIds=jssc-header -Dgpg.skip=true verify
+- ./mvnw --batch-mode -Pdeploy -DexcludeArtifactIds=jssc-header -Dgpg.skip=true verify
 
 after_success:
-  - if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_TAG" == "" ]; then echo $GPG_KEY | base64 --decode | gpg --batch --fast-import -; fi
-  - if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_TAG" == "" ]; then mvn --batch-mode -Pdeploy --settings .deployment/m2-settings.xml -DexcludeArtifactIds=jssc-header deploy; fi
+- |
+  if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_TAG" == "" ] && [ "$TRAVIS_OS_NAME" == "linux" ]; then
+    gpg2 --keyring=$TRAVIS_BUILD_DIR/pubring.gpg --no-default-keyring --import deployment/signingkey.asc
+    gpg2 --allow-secret-key-import --keyring=$TRAVIS_BUILD_DIR/secring.gpg --no-default-keyring --import deployment/signingkey.asc
+    ./mvnw --batch-mode -Pdeploy --settings .deployment/m2-settings.xml -DexcludeArtifactIds=jssc-header deploy
+  fi
 
+dd:
+- openssl aes-256-cbc -K $encrypted_19397dde2ef8_key -iv $encrypted_19397dde2ef8_iv
+  -in .deployment/signingkey.asc.enc -out .deployment/signingkey.asc -d

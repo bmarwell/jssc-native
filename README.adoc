@@ -2,6 +2,8 @@
 jssc-native
 ===========
 
+image:https://travis-ci.com/java-native/jssc-native.svg?branch=master["Build Status", link="https://travis-ci.com/java-native/jssc-native"]
+
 Description
 -----------
 
