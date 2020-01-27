@@ -58,8 +58,8 @@ script:
 after_success:
 - |
   if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_TAG" == "" ] && [ "$TRAVIS_OS_NAME" == "linux" ]; then
-    gpg2 --keyring=$TRAVIS_BUILD_DIR/pubring.gpg --no-default-keyring --import deployment/signingkey.asc
-    gpg2 --allow-secret-key-import --keyring=$TRAVIS_BUILD_DIR/secring.gpg --no-default-keyring --import deployment/signingkey.asc
+    gpg2 --keyring=$TRAVIS_BUILD_DIR/pubring.gpg --no-default-keyring --import .deployment/signingkey.asc
+    gpg2 --allow-secret-key-import --keyring=$TRAVIS_BUILD_DIR/secring.gpg --no-default-keyring --import .deployment/signingkey.asc
     ./mvnw --batch-mode -Pdeploy --settings .deployment/m2-settings.xml -DexcludeArtifactIds=jssc-header deploy
   fi
 
